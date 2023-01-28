@@ -1,0 +1,17 @@
+.input-line {
+    background-color: rgb(195, 13, 219);
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+.title {
+    caret-color: transparent;
+}
+.input-box{
+    caret-color: black;
+}
+.checked-item {
+    text-decoration: line-through;
+  }
