@@ -14,7 +14,7 @@
 }
 
 .Main-header {
-  background-color: lightsalmon;
+  background-color: rgb(93, 69, 104);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
