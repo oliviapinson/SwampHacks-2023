@@ -1,5 +1,6 @@
 import './InputForm.css';
 import { useState } from 'react';
+import axios from "axios";
 
 const initalInput = {
     name: "",
