@@ -1,3 +1,5 @@
+from pymongo import MongoClient
+
 # teammate container of user input
 class teammate():
     def __init__(self, name, email, school, phone_number, year, major, skills, languages, night_owl, 
@@ -32,8 +34,35 @@ class teammate():
         self.times_matched = 0
 
 # read from database + create teammates
-def read_from_database():
-    x = 1
+
+def read_from_db(uri, db_name, collection_name):
+    client = MongoClient(uri)
+    db = client[db_name]
+    collection = db[collection_name]
+
+    tot = []
+    for document in collection.find():
+        name = document["name"]
+        email = document["email"]
+        school = document["school"]
+        phone_number = document["phone_number"]
+        year = document["year"]
+        major = document["major"]
+        skills = document["skills"]
+        languages = document["languages"]
+        night_owl = document["night_owl"]
+        project_goal = document["project_goal"]
+        hackathon_goal = document["hackathon_goal"]
+        hackathon_time = document["hackathon_time"]
+        remote = document["remote"]
+        personality = document["personality"]
+
+        hacker = teammate(name, email, school, phone_number, year, major, skills, languages, night_owl, project_goal, hackathon_goal, hackathon_time, remote, personality)
+        tot.append(hacker)
+    client.close()
+
+    return tot
+
 
 # matching function
 def final_matches(matches_matrix, tot):
@@ -70,9 +99,32 @@ def final_matches(matches_matrix, tot):
                     tot[index].times_matched += 1
                     match_next = False
 
+def matches_to_db(tot, uri, db_name, collection_name):
+    client = MongoClient(uri)
+    db = client[db_name]
+    collection = db[collection_name]
+
+    for i in range(len(tot)):
+        name = tot[i].name
+        matches = []
+        for match in tot[i].matches:
+            match_info = [
+                "name": match.name,
+                "email": match.email,
+                "phone_number": match.phone_number,
+                "skills": match.skills,
+                "languages": match.languages
+            ]
+            matches.append(match_info)
+
+        collection.insert_one({
+            "name": name,
+            "matches": matches
+        })
+            
 
 # MAIN
-tot = read_from_database()
+tot = read_from_db("mongodb+srv://swamphacks2023:brEE0112@hackmate.kllqfu4.mongodb.net/?retryWrites=true&w=majority", "HackMate", "collection")
 
 matches_matrix = [[0] * len(tot) for i in range(len(tot))] #2d array of matches from between i and j
 
@@ -101,7 +153,7 @@ for i in range(len(tot)):
             if(tot[i].hackathon_time == tot[j]. hackathon_time):
                 count += 2
             if(tot[i].remote == tot[j].remote):
-                if(tot[i].remote == 0 and (tot[i].school) != tot[j].school):
+                if(tot[i].remote == "In Person" and (tot[i].school) != tot[j].school):
                     count -= 20
                 else:
                     count += 3
@@ -318,3 +370,5 @@ for i in range(len(tot)):
     matches_matrix[i] = match_temp
 
 final_matches(matches_matrix, tot)
+
+matches_to_db(tot, "mongodb+srv://swamphacks2023:brEE0112@hackmate.kllqfu4.mongodb.net/?retryWrites=true&w=majority", "HackMate", "HackMates")
