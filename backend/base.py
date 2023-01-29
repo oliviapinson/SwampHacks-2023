@@ -42,19 +42,36 @@ def my_profile():       #runs on http://127.0.0.1:5000
 @api.route("/inputs", methods=["GET","POST"])
 def add_articles():
     data = request.get_json()
-    #print(data)
-    #nm = request.args.get('name')
-    nm = request.args.get('name')
-    # email = request.args.get('email', type=str);
-    #nm = request.args.get('name')
-    #email = request.form.get('email')
-    # name = data['name']
-    # api.logger.debug("test")
-    # api.logger.debug(name)
-    #sys.stdout.write(str(type(request.args.get('name'))));
+    nm = data['name']
+    em = data['email']
+    num = data['number']
+    sch = data['school']
+    yr = data['year']
+    maj = data['major']
+    sk = data['skills']
+    lang = data['languages']
+    nigh = data['night']
+    gl = data['goal']
+    take = data['takeaway']
+    tm = data['time']
+    loc = data['location']
+    my = data['myers']
+    
     item_doc = {
-        'id': '7',
-        'name': nm
+        'name': nm,
+        'email': em,
+        'number': num,
+        'school': sch,
+        'year': yr,
+        'major': maj,
+        'skills': sk,
+        'languages': lang,
+        'night': nigh,
+        'goal': gl,
+        'takeaway': take,
+        'time': tm,
+        'location': loc,
+        'myers': my
     }
     db.collection.insert(item_doc)
     return json.loads(json_util.dumps(item_doc))

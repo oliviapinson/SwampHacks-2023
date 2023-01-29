@@ -17,6 +17,7 @@ const initalInput = {
     location: "",
     myers: ""
 }
+
 const Dropdown = ({ open, trigger, menu }) => {
     return (
         <div className="dropdown">
@@ -61,11 +62,42 @@ function MyForm() {
     const [myersDropdown, setMyersDropdown] = useState(false);
 
     console.log(inputs);
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    async function handleSubmit() {
+        //event.preventDefault();
         console.log("HI");
-        //alert(inputs);
-    }
+        console.log(inputs);
+        console.log("HI");
+    
+        const response = await fetch("http://127.0.0.1:5000/inputs", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: inputs.name,
+                email: inputs.email,
+                number: inputs.number,
+                school: inputs.school,
+                year: inputs.year,
+                major: inputs.major,
+                skills: inputs.skills,
+                languages: inputs.languages,
+                night: inputs.night,
+                goal: inputs.goal,
+                takeaway: inputs.takeaway,
+                time: inputs.time,
+                location: inputs.location,
+                myers: inputs.myers
+            }),
+        })
+        .then (response => response.json())
+        .then (response => console.log(response))
+        .then (data => console.log(data))
+        .catch(err => console.log(err.message))
+    
+    } 
+    
+    
     const handleSchoolDropdown = () => {
         setSchoolDropdown(!schoolDropdown);
     }
@@ -138,14 +170,14 @@ function MyForm() {
 
 
     return (
-        <form onSubmit={handleSubmit} className='form'>
+        <div className='form'>
             <div className='input-line input-box-header'>
                 <h3 className='title grid-element-h'>Name: </h3>
                     <input
                         type="text"
                         name="name"
-                        value={inputs.name}
-                        onChange={e => setInputs(values => ({ ...values, name: e.value }))}
+                        value={inputs.name} 
+                        onChange={e => setInputs(values => ({ ...values, name: e.target.value }))}
                         className='input-box grid-element-d'
                     />
             </div>
@@ -155,7 +187,7 @@ function MyForm() {
                         type="text"
                         name="age"
                         value={inputs.email}
-                        onChange={e => setInputs(values => ({ ...values, email: e.value }))}
+                        onChange={e => setInputs(values => ({ ...values, email: e.target.value }))}
                         className='input-box grid-element-d'
                     />
             </div>
@@ -165,7 +197,7 @@ function MyForm() {
                         type="text"
                         name="number"
                         value={inputs.number}
-                        onChange={e => setInputs(values => ({ ...values, number: e.value }))}
+                        onChange={e => setInputs(values => ({ ...values, number: e.target.value }))}
                         className='input-box grid-element-d'
                     />
             </div>
@@ -252,7 +284,7 @@ function MyForm() {
                 </h3>
             </div>
             <div className='input-line input-box-header'>
-                <h3 className='title grid-element-h'>Are you ... </h3>
+                <h3 className='title grid-element-h'>Are you a... </h3>
                     <Dropdown
                         open={nightDropdown}
                         trigger={<button className='grid-element-d menu-item' onClick={handleNightDropdown}>{inputs.night}</button>}
@@ -345,9 +377,9 @@ function MyForm() {
                     />
             </div>
             <div className='input-line'>
-                <button className="menu-item" onClick={() => handleSubmit()}> Submit </button>
+                <input value='Submit' type='button' className="menu-item submit-button" onClick={() => handleSubmit()}/>
             </div>
-        </form>
+        </div>
     )
 }
 
