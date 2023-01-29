@@ -50,3 +50,8 @@
     margin: 10;
     padding: 0;
 }
+.submit-buttton{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}

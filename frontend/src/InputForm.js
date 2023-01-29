@@ -145,7 +145,7 @@ function MyForm() {
                         type="text"
                         name="name"
                         value={inputs.name}
-                        onChange={e => setInputs(values => ({ ...values, name: e.value }))}
+                        onChange={e => setInputs(values => ({ ...values, name: e.target.value }))}
                         className='input-box grid-element-d'
                     />
             </div>
@@ -155,7 +155,7 @@ function MyForm() {
                         type="text"
                         name="age"
                         value={inputs.email}
-                        onChange={e => setInputs(values => ({ ...values, email: e.value }))}
+                        onChange={e => setInputs(values => ({ ...values, email: e.target.value }))}
                         className='input-box grid-element-d'
                     />
             </div>
@@ -165,7 +165,7 @@ function MyForm() {
                         type="text"
                         name="number"
                         value={inputs.number}
-                        onChange={e => setInputs(values => ({ ...values, number: e.value }))}
+                        onChange={e => setInputs(values => ({ ...values, number: e.target.value }))}
                         className='input-box grid-element-d'
                     />
             </div>
@@ -345,7 +345,7 @@ function MyForm() {
                     />
             </div>
             <div className='input-line'>
-                <button className="menu-item" onClick={() => handleSubmit()}> Submit </button>
+                <button className="menu-item submit-button" onClick={() => handleSubmit()}> Submit </button>
             </div>
         </form>
     )
