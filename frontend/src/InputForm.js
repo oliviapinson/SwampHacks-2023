@@ -1,22 +1,21 @@
 import './InputForm.css';
-import { useState } from 'react';
-import axios from "axios";
+import { useEffect, useState } from 'react';
 
 const initalInput = {
     name: "",
-    email: "",
-    number: "",
-    school: "",
-    year: "",
-    major: "",
-    skills: {},
-    languages: {},
-    night: "",
-    goal: "",
-    takeaway: "",
-    time: "",
-    location: "",
-    myers: ""
+    // email: "",
+    // number: "",
+    // school: "",
+    // year: "",
+    // major: "",
+    // skills: {},
+    // languages: {},
+    // night: "",
+    // goal: "",
+    // takeaway: "",
+    // time: "",
+    // location: "",
+    // myers: ""
 }
 const Dropdown = ({ open, trigger, menu }) => {
     return (
@@ -57,19 +56,51 @@ const CheckedList = ({list}) => {
 
 function MyForm() {
     const [inputs, setInputs] = useState(initalInput);
-    const [schoolDropdown, setSchoolDropdown] = useState(false);
-    const [yearDropdown, setYearDropdown] = useState(false);
+    // const [schoolDropdown, setSchoolDropdown] = useState(false);
+    // const [yearDropdown, setYearDropdown] = useState(false);
+    // const [formData, setFormData] = useState({})
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        //alert(inputs);
-    }
-    const handleSchoolDropdown = () => {
-        setSchoolDropdown(!schoolDropdown);
-    }
-    const handleYearDropdown = () => {
-        setYearDropdown(!yearDropdown);
-    }
+
+    async function handleSubmit() {
+        console.log("HI");
+
+            const response = await fetch("http://127.0.0.1:5000/inputs", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                name: inputs.name
+              }),
+            })
+            .then (response => response.json())
+            .then (response => console.log(response))
+            .then (response => setInputs(response))
+            .then (data => console.log(data))
+            .catch(err => console.log(err.message))
+            
+        }
+        
+        // const handleSubmit = async(body) => {
+        //     console.log("Here");
+        //     await fetch("http://127.0.0.1:5000/inputs",{
+        //         method: 'POST',
+        //         body: JSON.stringify(inputs),
+        //         mode: 'cors',
+        //         headers: {'Content-type': 'application/json'},
+        //     }).then ((response) => response.json())
+        //     .then ((data) => setInputs(inputs))
+        //     .catch((err) => {
+        //         console.log(err.message);
+        //     }, [inputs]);
+        // }
+    
+    // const handleSchoolDropdown = () => {
+    //     setSchoolDropdown(!schoolDropdown);
+    // }
+    // const handleYearDropdown = () => {
+    //     setYearDropdown(!yearDropdown);
+    // }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -78,13 +109,14 @@ function MyForm() {
                     <input
                         type="text"
                         name="name"
-                        value={inputs.name}
-                        onChange={e => setInputs(values => ({ ...values, name: e.value }))}
+                        value={inputs}
+                        onChange={event => setInputs(event.target.value)}
                         className='input-box'
                     />
                 </h3>
             </div>
-            <div className='input-line'>
+            
+            {/* <div className='input-line'>
                 <h3 className='title'>Email:
                     <input
                         type="text"
@@ -105,8 +137,8 @@ function MyForm() {
                         className='input-box'
                     />
                 </h3>
-            </div>
-            <div className='input-line'>
+            </div> */}
+            {/* <div className='input-line'>
                 <h3 className='title'>School:
                     <Dropdown
                         open={schoolDropdown}
@@ -133,8 +165,8 @@ function MyForm() {
                         ]}
                     />
                 </h3>
-            </div>
-            <div className='input-line'>
+            </div> */}
+            {/* <div className='input-line'>
                 <h3 className='title'>Major:
                     <Dropdown
                         open={yearDropdown}
@@ -165,16 +197,17 @@ function MyForm() {
                         ]}
                     />
                 </h3>
-            </div>
-            <div className='input-line'>
+            </div> */}
+            {/* <div className='input-line'>
                 <h3 className='title'>Skills:
                     <div className="list-container">
                         
                     </div>
                 </h3>
-            </div>
+            </div> */}
+        
             <div className='input-line'>
-                <input type="submit" />
+                <input type="button" onClick={e => handleSubmit()} />
             </div>
         </form>
     )
