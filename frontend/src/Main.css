@@ -14,7 +14,7 @@
 }
 
 .Main-header {
-  background-color: rgb(93, 69, 104);
+  background-color: rgb(41, 45, 80);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,4 +22,18 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.description{
+  padding: 0px 40px;
+  font-size: 23px;
+  margin-top: 0;
+}
+.main-title{
+  padding: 0px 20px;
+  font-size: 50px;
+}
+.credits{
+  padding: 0px 40px;
+  font-size: 15px;
+  margin-top: 10px;
 }
