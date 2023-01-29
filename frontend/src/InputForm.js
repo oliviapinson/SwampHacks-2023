@@ -1,6 +1,5 @@
 import './InputForm.css';
 import { useState } from 'react';
-import axios from "axios";
 
 const initalInput = {
     name: "",
@@ -25,7 +24,7 @@ const Dropdown = ({ open, trigger, menu }) => {
             {open ? (
                 <ul className="menu">
                     {menu.map((menuItem, index) => (
-                        <li key={index} className="menu-item">{menuItem}</li>
+                        <li key={menuItem} className="menu-item">{menuItem}</li>
                     ))}
                 </ul>
             ) : null}
@@ -38,6 +37,7 @@ function MyForm() {
     const [inputs, setInputs] = useState(initalInput);
     const [schoolDropdown, setSchoolDropdown] = useState(false);
     const [yearDropdown, setYearDropdown] = useState(false);
+    const [majorDropdown, setMajorDropdown] = useState(false);
 
     const skillsList = ['Web Development', 'Animation', 'Game Development', 'Machine Learning', 'Virtual Reality', 'Application Developmemt', 'Mobile Development'];
     const [checkedSkillState, setCheckedSkillState] = useState(
@@ -71,6 +71,9 @@ function MyForm() {
     }
     const handleYearDropdown = () => {
         setYearDropdown(!yearDropdown);
+    }
+    const handleMajorDropdown = () => {
+        setMajorDropdown(!majorDropdown);
     }
     const handleSkillOnChange = (position) => {
         const updatedCheckedState = checkedSkillState.map((item, index) =>
@@ -134,82 +137,76 @@ function MyForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className='input-line'>
-                <h3 className='title'>Name:
+        <form onSubmit={handleSubmit} className='form'>
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>Name: </h3>
                     <input
                         type="text"
                         name="name"
                         value={inputs.name}
                         onChange={e => setInputs(values => ({ ...values, name: e.value }))}
-                        className='input-box'
+                        className='input-box grid-element-d'
                     />
-                </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>Email:
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>Email: </h3>
                     <input
                         type="text"
                         name="age"
                         value={inputs.email}
                         onChange={e => setInputs(values => ({ ...values, email: e.value }))}
-                        className='input-box'
+                        className='input-box grid-element-d'
                     />
-                </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>Phone Number:
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>Phone Number: </h3>
                     <input
                         type="text"
                         name="number"
                         value={inputs.number}
                         onChange={e => setInputs(values => ({ ...values, number: e.value }))}
-                        className='input-box'
+                        className='input-box grid-element-d'
                     />
-                </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>School:
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>School: </h3>
                     <Dropdown
                         open={schoolDropdown}
-                        trigger={<button onClick={handleSchoolDropdown}>Dropdown</button>}
+                        trigger={<button onClick={handleSchoolDropdown} className='grid-element-d menu-item'>{inputs.school}</button>}
                         menu={[
-                            <button onClick={e => setInputs(values => ({ ...values, school: 'University of Florida' }))}>University of Florida</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, school: 'University of Central Florida' }))}>University of Central Florida</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, school: 'Other' }))}>Other</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, school: 'University of Florida' }))}>University of Florida</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, school: 'University of Central Florida' }))}>University of Central Florida</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, school: 'Other' }))}>Other</button>,
                         ]}
                     />
-                </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>Year in School:
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>Year in School: </h3>
                     <Dropdown
                         open={yearDropdown}
-                        trigger={<button onClick={handleYearDropdown}>Dropdown</button>}
+                        trigger={<button className='grid-element-d menu-item' onClick={handleYearDropdown}>{inputs.year}</button>}
                         menu={[
-                            <button onClick={e => setInputs(values => ({ ...values, year: 'Freshman' }))}>Freshman</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, year: 'Sophomore' }))}>Sophomore</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, year: 'Junior' }))}>Junior</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, year: 'Senior' }))}>Senior</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, year: 'Super-Senior' }))}>Super-Senior</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, year: 'Freshman' }))}>Freshman</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, year: 'Sophomore' }))}>Sophomore</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, year: 'Junior' }))}>Junior</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, year: 'Senior' }))}>Senior</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, year: 'Super-Senior' }))}>Super-Senior</button>,
                         ]}
                     />
-                </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>Major:
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>Major: </h3>
                     <Dropdown
-                        open={yearDropdown}
-                        trigger={<button onClick={handleYearDropdown}>Dropdown</button>}
+                        open={majorDropdown}
+                        trigger={<button className='grid-element-d menu-item' onClick={handleMajorDropdown}>{inputs.major}</button>}
                         menu={[
-                            <button onClick={e => setInputs(values => ({ ...values, major: 'Computer Science' }))}>Computer Science</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, major: 'Computer Engineering' }))}>Computer Engineering</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, major: 'Digital Arts and Sciences' }))}>Digital Arts and Sciences</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, major: 'Other Engineering' }))}>Other Engineering</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, major: 'Other Business' }))}>Other Business</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, major: 'Computer Science' }))}>Computer Science</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, major: 'Computer Engineering' }))}>Computer Engineering</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, major: 'Digital Arts and Sciences' }))}>Digital Arts and Sciences</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, major: 'Other Engineering' }))}>Other Engineering</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, major: 'Other Business' }))}>Other Business</button>,
                         ]}
                     />
-                </h3>
             </div>
             <div className='input-line'>
                 <h3 className='title'>Skills:
@@ -253,17 +250,16 @@ function MyForm() {
                     </div>
                 </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>Are you ...
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>Are you ... </h3>
                     <Dropdown
                         open={nightDropdown}
-                        trigger={<button onClick={handleNightDropdown}>Dropdown</button>}
+                        trigger={<button className='grid-element-d menu-item' onClick={handleNightDropdown}>{inputs.night}</button>}
                         menu={[
-                            <button onClick={e => setInputs(values => ({ ...values, night: 'Night Owl' }))}>Night Owl</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, night: 'Morning Person' }))}>Morning Person</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, night: 'Night Owl' }))}>Night Owl</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, night: 'Morning Person' }))}>Morning Person</button>,
                         ]}
                     />
-                </h3>
             </div>
             <div className='input-line'>
                 <h3 className='title'>Which project goal do you want to aim for?
@@ -286,73 +282,69 @@ function MyForm() {
                     </div>
                 </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>What do you want to get out of the hackathon?
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>What do you want to get out of the hackathon? </h3>
                     <Dropdown
                         open={takeawayDropdown}
-                        trigger={<button onClick={handleTakeawayDropdown}>Dropdown</button>}
+                        trigger={<button className='grid-element-d menu-item' onClick={handleTakeawayDropdown}>{inputs.takeaway}</button>}
                         menu={[
-                            <button onClick={e => setInputs(values => ({ ...values, takeaway: 'Practice' }))}>To practice. </button>,
-                            <button onClick={e => setInputs(values => ({ ...values, takeaway: 'Learn' }))}>To learn.</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, takeaway: 'Win' }))}>To win!</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, takeaway: 'Practice' }))}>To practice. </button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, takeaway: 'Learn' }))}>To learn.</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, takeaway: 'Win' }))}>To win!</button>,
                         ]}
                     />
-                </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>How much time do you want to spend on the hackathon?
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>How much time do you want to spend on the hackathon? </h3>
                     <Dropdown
                         open={timeDropdown}
-                        trigger={<button onClick={handleTimeDropdown}>Dropdown</button>}
+                        trigger={<button className='grid-element-d menu-item' onClick={handleTimeDropdown}>{inputs.time}</button>}
                         menu={[
-                            <button onClick={e => setInputs(values => ({ ...values, time: '1-8 hours' }))}>1-8 hours </button>,
-                            <button onClick={e => setInputs(values => ({ ...values, time: '8-16 hours' }))}>8-16 hours</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, time: '16-24 hours' }))}>16-24 hours</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, time: '24-36 hours' }))}>24-36 hours</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, time: '1-8 hours' }))}>1-8 hours </button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, time: '8-16 hours' }))}>8-16 hours</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, time: '16-24 hours' }))}>16-24 hours</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, time: '24-36 hours' }))}>24-36 hours</button>,
                         ]}
                     />
-                </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>Do you prefer...
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>Do you prefer... </h3>
                     <Dropdown
                         open={nightDropdown}
-                        trigger={<button onClick={handleNightDropdown}>Dropdown</button>}
+                        trigger={<button className='grid-element-d menu-item' onClick={handleNightDropdown}>{inputs.night}</button>}
                         menu={[
-                            <button onClick={e => setInputs(values => ({ ...values, night: 'In-person' }))}>In-person</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, night: 'Remote' }))}>Remote</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, night: 'In-person' }))}>In-person</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, night: 'Remote' }))}>Remote</button>,
                         ]}
                     />
-                </h3>
             </div>
-            <div className='input-line'>
-                <h3 className='title'>What is your Myers-Briggs personality type?
+            <div className='input-line input-box-header'>
+                <h3 className='title grid-element-h'>What is your Myers-Briggs personality type? </h3>
                     <Dropdown
                         open={myersDropdown}
-                        trigger={<button onClick={handleMyersDropdown}>Dropdown</button>}
+                        trigger={<button className='grid-element-d menu-item' onClick={handleMyersDropdown}>{inputs.myers}</button>}
                         menu={[
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ISTJ' }))}>ISTJ</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ISFJ' }))}>ISFJ</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'INFJ' }))}>INFJ</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'INTJ' }))}>INTJ</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ISTP' }))}>ISTP</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ISFP' }))}>ISFP</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'INFP' }))}>INFP</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'INTP' }))}>INTP</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ESTJ' }))}>ESTJ</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ESFJ' }))}>ESFJ</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ENFJ' }))}>ENFJ</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ENTJ' }))}>ENTJ</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ESTP' }))}>ESTP</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ESFP' }))}>ESFP</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ENFP' }))}>ENFP</button>,
-                            <button onClick={e => setInputs(values => ({ ...values, myers: 'ENTP' }))}>ENTP</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ISTJ' }))}>ISTJ</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ISFJ' }))}>ISFJ</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'INFJ' }))}>INFJ</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'INTJ' }))}>INTJ</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ISTP' }))}>ISTP</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ISFP' }))}>ISFP</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'INFP' }))}>INFP</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'INTP' }))}>INTP</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ESTJ' }))}>ESTJ</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ESFJ' }))}>ESFJ</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ENFJ' }))}>ENFJ</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ENTJ' }))}>ENTJ</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ESTP' }))}>ESTP</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ESFP' }))}>ESFP</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ENFP' }))}>ENFP</button>,
+                            <button className='menu-item' onClick={e => setInputs(values => ({ ...values, myers: 'ENTP' }))}>ENTP</button>,
                         ]}
                     />
-                </h3>
             </div>
             <div className='input-line'>
-                <input type="button" onClick={() => handleSubmit()} />
+                <button className="menu-item" onClick={() => handleSubmit()}> Submit </button>
             </div>
         </form>
     )
