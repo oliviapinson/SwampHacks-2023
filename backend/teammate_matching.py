@@ -43,11 +43,11 @@ def final_matches(matches_matrix, tot):
             if tot[i].times_matched == 8:
                 continue
             # find match
-            index = enumerate(matches_matrix[i])
-            compatibility = matches_matrix[index]
+            compatibility = max(matches_matrix[i])
+            index = matches_matrix[i].index(compatibility)
 
             # When match already exists
-            if tot[i].has_key(tot[index]):
+            if tot[index] in tot[i].matches:
                 matches_matrix[i][index] = -1
 
             # if both are eligible to be matched
@@ -60,8 +60,8 @@ def final_matches(matches_matrix, tot):
             
             # if second is fully matched, look for next possible match
             while(match_next):
-                index = enumerate(matches_matrix[i])
-                compatibility = matches_matrix[index]
+                compatibility = max(matches_matrix[i])
+                index = matches_matrix[i].index(compatibility)
                 if tot[index].times_matched <= 8:
                     matches_matrix[i][index] = -1
                     tot[i].matches[tot[index]] = compatibility
@@ -74,246 +74,247 @@ def final_matches(matches_matrix, tot):
 # MAIN
 tot = read_from_database()
 
-matches_matrix = [[]] #2d array of matches from between i and j
+matches_matrix = [[0] * len(tot) for i in range(len(tot))] #2d array of matches from between i and j
 
 for i in range(len(tot)):
-    match_temp = []
+    match_temp = [0] * len(tot)
     for j in range(len(tot)):
         if i == j:
             count = -1
         if j != i:
             count = 0
-            if(tot(i).school == tot(j).school):
+            if(tot[i].school == tot[j].school):
                 count += 2
-            if(tot(i).year == tot(j).year):
+            if(tot[i].year == tot[j].year):
                 count += 1
-            if(tot(i).major == tot(j).major):
+            if(tot[i].major == tot[j].major):
                 count += 1
-            if(tot(i).night_owl == tot(j).night_owl):
+            if(tot[i].night_owl == tot[j].night_owl):
                 count += 1
-            for x in range(tot(i).project_goal):
-                for y in range(tot(j).project_goal):
-                    if(tot(i).project_goal(x) == tot(j).project_goal(y)):
+            for x in range(len(tot[i].project_goal)):
+                for y in range(len(tot[j].project_goal)):
+                    if(tot[i].project_goal[x] == tot[j].project_goal[y]):
                         count += 1
                         break
-            if(tot(i).hackathon_goal == tot(j). hackathon_goal):
+            if(tot[i].hackathon_goal == tot[j]. hackathon_goal):
                 count += 1
-            if(tot(i).hackathon_time == tot(j). hackathon_time):
+            if(tot[i].hackathon_time == tot[j]. hackathon_time):
                 count += 2
-            if(tot(i).remote == tot(j).remote):
-                if(tot(i).remote == 0 and (tot(i).school) != tot(j).school):
+            if(tot[i].remote == tot[j].remote):
+                if(tot[i].remote == 0 and (tot[i].school) != tot[j].school):
                     count -= 20
                 else:
                     count += 3
-            if(tot(i).personality == 'ISTJ'):
-                if(tot(j).personality == 'ISTJ'):
+            if(tot[i].personality == 'ISTJ'):
+                if(tot[j].personality == 'ISTJ'):
                     count += 3
-                if(tot(j).personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-                if(tot(j).personality == 'ESTJ'):
+                if(tot[j].personality == 'ESTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-                if(tot(j).personality == 'ISFJ'):
+                if(tot[j].personality == 'ISFJ'):
                     count += 3
-                if(tot(j).personality == 'ESFJ'):
+                if(tot[j].personality == 'ESFJ'):
                     count += 3
-            if(tot(i).personality == 'ISFJ'):
-                if(tot(j).personality == 'ISFJ'):
+            if(tot[i].personality == 'ISFJ'):
+                if(tot[j].personality == 'ISFJ'):
                     count += 3
-                if(tot(j).personality == 'ESFJ'):
+                if(tot[j].personality == 'ESFJ'):
                     count += 3
-                if(tot(j).personality == 'ISFP'):
+                if(tot[j].personality == 'ISFP'):
                     count += 3
-                if(tot(j).personality == 'ESFP'):
+                if(tot[j].personality == 'ESFP'):
                     count += 3
-                if(tot(j).personality == 'ISTJ'):
+                if(tot[j].personality == 'ISTJ'):
                     count += 3
-                if(tot(j).personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-            if(tot(i).personality == 'INFJ'):
-                if(tot(j).personality == 'INFJ'):
+            if(tot[i].personality == 'INFJ'):
+                if(tot[j].personality == 'INFJ'):
                     count += 3
-                if(tot(j).personality == 'ENFJ'):
+                if(tot[j].personality == 'ENFJ'):
                     count += 3
-                if(tot(j).personality == 'INFP'):
+                if(tot[j].personality == 'INFP'):
                     count += 3
-                if(tot(j).personality == 'ENFP'):
+                if(tot[j].personality == 'ENFP'):
                     count += 3
-                if(tot(j).personality == 'ISTJ'):
+                if(tot[j].personality == 'ISTJ'):
                     count += 3
-                if(tot(j).personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-            if(tot(i).personality == 'INTJ'):
-                if(tot(j).personality == 'INTJ'):
+            if(tot[i].personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-                if(tot(j).personality == 'INTP'):
+                if(tot[j].personality == 'INTP'):
                     count += 3
-                if(tot(j).personality == 'ENTP'):
+                if(tot[j].personality == 'ENTP'):
                     count += 3
-                if(tot(j).personality == 'INFJ'):
+                if(tot[j].personality == 'INFJ'):
                     count += 3
-                if(tot(j).personality == 'ENFJ'):
+                if(tot[j].personality == 'ENFJ'):
                     count += 3
-            if(tot(i).personality == 'ISTP'):
-                if(tot(j).personality == 'ISTP'):
+            if(tot[i].personality == 'ISTP'):
+                if(tot[j].personality == 'ISTP'):
                     count += 3
-                if(tot(j).personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-                if(tot(j).personality == 'ESTJ'):
+                if(tot[j].personality == 'ESTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-                if(tot(j).personality == 'ISFP'):
+                if(tot[j].personality == 'ISFP'):
                     count += 3
-                if(tot(j).personality == 'ESPF'):
+                if(tot[j].personality == 'ESPF'):
                     count += 3
-            if(tot(i).personality == 'ISFP'):
-                if(tot(j).personality == 'ISFP'):
+            if(tot[i].personality == 'ISFP'):
+                if(tot[j].personality == 'ISFP'):
                     count += 3
-                if(tot(j).personality == 'ESFP'):
+                if(tot[j].personality == 'ESFP'):
                     count += 3
-                if(tot(j).personality == 'ISFJ'):
+                if(tot[j].personality == 'ISFJ'):
                     count += 3
-                if(tot(j).personality == 'ESFJ'):
+                if(tot[j].personality == 'ESFJ'):
                     count += 3
-                if(tot(j).personality == 'ISTP'):
+                if(tot[j].personality == 'ISTP'):
                     count += 3
-                if(tot(j).personality == 'ESTP'):
+                if(tot[j].personality == 'ESTP'):
                     count += 3
-            if(tot(i).personality == 'INFP'):
-                if(tot(j).personality == 'INFP'):
+            if(tot[i].personality == 'INFP'):
+                if(tot[j].personality == 'INFP'):
                     count += 3
-                if(tot(j).personality == 'ENFP'):
+                if(tot[j].personality == 'ENFP'):
                     count += 3
-                if(tot(j).personality == 'INFJ'):
+                if(tot[j].personality == 'INFJ'):
                     count += 3
-                if(tot(j).personality == 'ENFJ'):
+                if(tot[j].personality == 'ENFJ'):
                     count += 3
-                if(tot(j).personality == 'ISTP'):
+                if(tot[j].personality == 'ISTP'):
                     count += 3
-                if(tot(j).personality == 'ESTP'):
+                if(tot[j].personality == 'ESTP'):
                     count += 3
-            if(tot(i).personality == 'INTP'):
-                if(tot(j).personality == 'INTP'):
+            if(tot[i].personality == 'INTP'):
+                if(tot[j].personality == 'INTP'):
                     count += 3
-                if(tot(j).personality == 'ENTP'):
+                if(tot[j].personality == 'ENTP'):
                     count += 3
-                if(tot(j).personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-                if(tot(j).personality == 'INFJ'):
+                if(tot[j].personality == 'INFJ'):
                     count += 3
-                if(tot(j).personality == 'ENFJ'):
+                if(tot[j].personality == 'ENFJ'):
                     count += 3
-            if(tot(i).personality == 'ESTJ'):
-                if(tot(j).personality == 'ESTJ'):
+            if(tot[i].personality == 'ESTJ'):
+                if(tot[j].personality == 'ESTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-                if(tot(j).personality == 'ISTJ'):
+                if(tot[j].personality == 'ISTJ'):
                     count += 3
-                if(tot(j).personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-                if(tot(j).personality == 'ESFJ'):
+                if(tot[j].personality == 'ESFJ'):
                     count += 3
-                if(tot(j).personality == 'ISFJ'):
+                if(tot[j].personality == 'ISFJ'):
                     count += 3
-            if(tot(i).personality == 'ESFJ'):
-                if(tot(j).personality == 'ESFJ'):
+            if(tot[i].personality == 'ESFJ'):
+                if(tot[j].personality == 'ESFJ'):
                     count += 3
-                if(tot(j).personality == 'ISFJ'):
+                if(tot[j].personality == 'ISFJ'):
                     count += 3
-                if(tot(j).personality == 'ESFP'):
+                if(tot[j].personality == 'ESFP'):
                     count += 3
-                if(tot(j).personality == 'ISFP'):
+                if(tot[j].personality == 'ISFP'):
                     count += 3
-                if(tot(j).personality == 'ESTJ'):
+                if(tot[j].personality == 'ESTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-            if(tot(i).personality == 'ENFJ'):
-                if(tot(j).personality == 'ENFJ'):
+            if(tot[i].personality == 'ENFJ'):
+                if(tot[j].personality == 'ENFJ'):
                     count += 3
-                if(tot(j).personality == 'INFJ'):
+                if(tot[j].personality == 'INFJ'):
                     count += 3
-                if(tot(j).personality == 'ENFP'):
+                if(tot[j].personality == 'ENFP'):
                     count += 3
-                if(tot(j).personality == 'INFP'):
+                if(tot[j].personality == 'INFP'):
                     count += 3
-                if(tot(j).personality == 'ESTJ'):
+                if(tot[j].personality == 'ESTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-            if(tot(i).personality == 'ENTJ'):
-                if(tot(j).personality == 'ENTJ'):
+            if(tot[i].personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-                if(tot(j).personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTP'):
+                if(tot[j].personality == 'ENTP'):
                     count += 3
-                if(tot(j).personality == 'INTP'):
+                if(tot[j].personality == 'INTP'):
                     count += 3
-                if(tot(j).personality == 'ENFJ'):
+                if(tot[j].personality == 'ENFJ'):
                     count += 3
-                if(tot(j).personality == 'INFJ'):
+                if(tot[j].personality == 'INFJ'):
                     count += 3
-            if(tot(i).personality == 'ESTP'):
-                if(tot(j).personality == 'ESTP'):
+            if(tot[i].personality == 'ESTP'):
+                if(tot[j].personality == 'ESTP'):
                     count += 3
-                if(tot(j).personality == 'ISTP'):
+                if(tot[j].personality == 'ISTP'):
                     count += 3
-                if(tot(j).personality == 'ESFP'):
+                if(tot[j].personality == 'ESFP'):
                     count += 3
-                if(tot(j).personality == 'ISFP'):
+                if(tot[j].personality == 'ISFP'):
                     count += 3
-                if(tot(j).personality == 'ESTJ'):
+                if(tot[j].personality == 'ESTJ'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-            if(tot(i).personality == 'ESFP'):
-                if(tot(j).personality == 'ESFP'):
+            if(tot[i].personality == 'ESFP'):
+                if(tot[j].personality == 'ESFP'):
                     count += 3
-                if(tot(j).personality == 'ISFP'):
+                if(tot[j].personality == 'ISFP'):
                     count += 3
-                if(tot(j).personality == 'ESFJ'):
+                if(tot[j].personality == 'ESFJ'):
                     count += 3
-                if(tot(j).personality == 'ISFJ'):
+                if(tot[j].personality == 'ISFJ'):
                     count += 3
-                if(tot(j).personality == 'ESTP'):
+                if(tot[j].personality == 'ESTP'):
                     count += 3
-                if(tot(j).personality == 'ISTP'):
+                if(tot[j].personality == 'ISTP'):
                     count += 3
-            if(tot(i).personality == 'ENFP'):
-                if(tot(j).personality == 'ENFP'):
+            if(tot[i].personality == 'ENFP'):
+                if(tot[j].personality == 'ENFP'):
                     count += 3
-                if(tot(j).personality == 'INFP'):
+                if(tot[j].personality == 'INFP'):
                     count += 3
-                if(tot(j).personality == 'ENFJ'):
+                if(tot[j].personality == 'ENFJ'):
                     count += 3
-                if(tot(j).personality == 'INFJ'):
+                if(tot[j].personality == 'INFJ'):
                     count += 3
-                if(tot(j).personality == 'ESTP'):
+                if(tot[j].personality == 'ESTP'):
                     count += 3
-                if(tot(j).personality == 'ISTP'):
+                if(tot[j].personality == 'ISTP'):
                     count += 3
-            if(tot(i).personality == 'ENTP'):
-                if(tot(j).personality == 'ENTP'):
+            if(tot[i].personality == 'ENTP'):
+                if(tot[j].personality == 'ENTP'):
                     count += 3
-                if(tot(j).personality == 'INTP'):
+                if(tot[j].personality == 'INTP'):
                     count += 3
-                if(tot(j).personality == 'ENTJ'):
+                if(tot[j].personality == 'ENTJ'):
                     count += 3
-                if(tot(j).personality == 'INTJ'):
+                if(tot[j].personality == 'INTJ'):
                     count += 3
-                if(tot(j).personality == 'ENFP'):
+                if(tot[j].personality == 'ENFP'):
                     count += 3
-                if(tot(j).personality == 'INFP'):
+                if(tot[j].personality == 'INFP'):
                     count += 3
-        match_temp.append(count)
-    matches_matrix.append(match_temp)
+
+        match_temp[j] = count
+    matches_matrix[i] = match_temp
 
 final_matches(matches_matrix, tot)
